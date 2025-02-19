@@ -23,8 +23,19 @@ class ThinkFilterPlugin(Star):
             # 移除残留的<think>标签（不匹配内容的情况）
             filtered_text = filtered_text.replace('<think>', '').replace('</think>', '')
             
-            # 更新响应内容
+            # 更新响应内容（仅修改必要字段）
             resp.completion_text = filtered_text.strip()
-            resp.raw_completion["choices"][0]["message"]["content"] = filtered_text.strip()
+            
+            # 兼容处理不同LLM响应格式
+            if hasattr(resp.raw_completion, 'choices'):
+                try:
+                    resp.raw_completion.choices[0].message.content = filtered_text.strip()
+                except AttributeError:
+                    pass
+            elif isinstance(resp.raw_completion, dict):
+                try:
+                    resp.raw_completion["choices"][0]["message"]["content"] = filtered_text.strip()
+                except KeyError:
+                    pass
             
         return resp
