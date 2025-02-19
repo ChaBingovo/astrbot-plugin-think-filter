@@ -1,0 +1,6 @@
+name: astrbot_plugin_think_filter
+desc: DeepSeek思考过程过滤插件-自动移除<think>标签内容
+help: 自动过滤LLM输出的<think>思考过程，无需指令直接生效
+version: v1.0
+author: DeepSeek助手
+repo: https://github.com/yourname/astrbot-plugin-think-filter
